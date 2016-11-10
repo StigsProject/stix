@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-
-namespace stixAPI
+﻿namespace stixAPI
 {
+    using Data;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
+    using Models;
+
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -26,7 +25,7 @@ namespace stixAPI
             }
 
             builder.AddEnvironmentVariables();
-            Configuration = builder.Build();
+            this.Configuration = builder.Build();
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -34,8 +33,12 @@ namespace stixAPI
         // This method gets called by the runtime. Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add database connection.
+            services.AddDbContext<StixDbContext>(options =>
+                options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
+
             // Add framework services.
-            services.AddApplicationInsightsTelemetry(Configuration);
+            services.AddApplicationInsightsTelemetry(this.Configuration);
 
             services.AddMvc();
         }
@@ -43,7 +46,7 @@ namespace stixAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             app.UseApplicationInsightsRequestTelemetry();
@@ -51,6 +54,8 @@ namespace stixAPI
             app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseMvc();
+
+            SeedData.Initialize(app.ApplicationServices);
         }
     }
 }
