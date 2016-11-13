@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-stix-7e0e2821-f2ec-4bdf-9423-76c2767e959d",
 
   "dependencies": {
@@ -41,10 +41,12 @@
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
-    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc":  {
+    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
+    },
+    "stixAPI": "1.0.0-*",
+    "Microsoft.EntityFrameworkCore": "1.0.1"
   },
 
   "tools": {

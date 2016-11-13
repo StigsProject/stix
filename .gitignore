@@ -5,3 +5,5 @@
 /.vs
 /stixAPI/bin/Debug
 /stixAPI/obj/Debug
+/stix/bin/Debug
+/stix/obj/Debug
