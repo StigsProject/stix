@@ -1,12 +1,13 @@
-﻿namespace stixAPI.Models
+﻿namespace stixAPI.Data
 {
-    using Microsoft.EntityFrameworkCore;
+	using Microsoft.EntityFrameworkCore;
+	using stixAPI.Models;
 
-    public class StixDbContext : DbContext
-    {
-        public StixDbContext(DbContextOptions<StixDbContext> options) : base(options)
-        { }
+	public class StixDbContext : DbContext
+	{
+		public StixDbContext(DbContextOptions<StixDbContext> options) : base(options)
+		{ }
 
-        public DbSet<Stig> Stig { get; set; }
-    }
+		public DbSet<Stig> Stig { get; set; }
+	}
 }
